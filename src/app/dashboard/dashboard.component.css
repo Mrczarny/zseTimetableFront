@@ -1,0 +1,23 @@
+/* .main {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+} */
+.container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.row {
+  width: fit-content;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+button {
+  height: fit-content;
+  width: 23vh;
+  border-radius: 1rem;
+}
