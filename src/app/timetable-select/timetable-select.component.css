@@ -1,0 +1,3 @@
+::ng-deep .mat-select .mat-select-panel, .mat-select-content {
+  width: 23vh !important; /* bruh */
+}
