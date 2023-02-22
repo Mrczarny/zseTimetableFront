@@ -16,7 +16,7 @@
   margin-bottom: 10px;
 }
 
-button {
+button, mat-select {
   height: fit-content;
   width: 23vh;
   border-radius: 1rem;
