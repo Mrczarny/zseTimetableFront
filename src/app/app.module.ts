@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { TimetableViewComponent } from './timetable-view/timetable-view.component';
 import { TimetableSelectComponent } from './timetable-select/timetable-select.component';
@@ -24,6 +25,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MatSelectModule,
     MatButtonModule,
