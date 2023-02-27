@@ -1,0 +1,5 @@
+{
+  "baseAddress" : "http://zsetimetable.com:5000",
+  "timetablesUrl": "/api/timetable",
+  "changesUrl": "/api/changes"
+}
