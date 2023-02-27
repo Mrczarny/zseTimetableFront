@@ -10,7 +10,7 @@ interface Car {
   selector: 'app-timetable-select',
   templateUrl: './timetable-select.component.html',
   styleUrls: ['../dashboard/dashboard.component.css', './timetable-select.component.css'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class TimetableSelectComponent implements OnInit {
 
