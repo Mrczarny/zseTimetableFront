@@ -1,5 +1,6 @@
 import { Timetable } from './Timetable';
-export type Teacher = {
+import { ISelectable } from './ISelectable';
+export type Teacher = ISelectable & null & {
   Name: string
   Timetable: Timetable
   ShortName: string

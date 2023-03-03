@@ -1,5 +1,7 @@
 import { Timetable } from './Timetable';
-export type Classroom = {
+import { ISelectable } from './ISelectable';
+export type Classroom = ISelectable & null & {
   Name: string
   Timetable: Timetable
+
 }
