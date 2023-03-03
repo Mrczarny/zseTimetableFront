@@ -1,9 +1,9 @@
 <main class="container">
   <div class="row">Select your {{typeName}}</div>
   <div class="row">
-    <mat-select style="width: 23vh;" [(ngModel)]="selectedCar" name="car">
-      <mat-option *ngFor="let car of cars" [value]="car.value">
-        {{car.viewValue}}
+    <mat-select style="width: 23vh;" [(ngModel)]="selectedName" name="car">
+      <mat-option *ngFor="let name of Names" [value]="name">
+        {{name}}
       </mat-option>
     </mat-select>
   </div>
