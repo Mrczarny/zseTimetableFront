@@ -15,11 +15,11 @@ export class HttpClientService {
   }
 
   getAllNames(type: ISelectable) {
-    return this.http.get<string[]>(`${httpConfig.baseAddress}/api/${type.TypeName}/allnames`)
+    return this.http.get<string[]>(`${httpConfig.baseAddress}/${httpConfig.timetablesUrl}/${type.TypeName}/allnames`)
   }
 
-  getTimetable(type: ISelectable){
-    return this.http.get<ISelectable>(`${httpConfig.baseAddress}/api/${httpConfig.timetablesUrl}/${type.Name}`)
+  getTimetable(type: ISelectable) {
+    return this.http.get<ISelectable>(`${httpConfig.baseAddress}/${httpConfig.timetablesUrl}/${type.TypeName}/${type.Name}`);
   }
 
   // getAllCurrentChanges(){
