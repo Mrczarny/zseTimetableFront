@@ -18,11 +18,13 @@ export class TimetableViewComponent implements OnInit {
 
    SelectableName: string = '';
    Selectable: ISelectable | null = null;
+   TypeName: string = ''
    DataSource = new MatTableDataSource<TimetableDay>(this.Selectable?.Timetable.Days)
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {this.SelectableName = params['name']})
-    this.httpService.getTimetable(new ).subscribe(selecatable => this.Selectable = selecatable)
+    this.route.url.subscribe(u => {this.TypeName = u.reverse()[1].path}) //TODO - no idea how urlsegment works
+    this.httpService.getTimetable(this.TypeName, this.SelectableName).subscribe(selecatable => this.Selectable = selecatable)
   }
 
 }
