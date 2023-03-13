@@ -18,8 +18,8 @@ export class HttpClientService {
     return this.http.get<string[]>(`${httpConfig.baseAddress}/${httpConfig.timetablesUrl}/${type.TypeName}/allnames`)
   }
 
-  getTimetable(type: ISelectable) {
-    return this.http.get<ISelectable>(`${httpConfig.baseAddress}/${httpConfig.timetablesUrl}/${type.TypeName}/${type.Name}`);
+  getTimetable(type: string, name: string) {
+    return this.http.get<ISelectable>(`${httpConfig.baseAddress}/${httpConfig.timetablesUrl}/${type}/${name}`);
   }
 
   // getAllCurrentChanges(){
