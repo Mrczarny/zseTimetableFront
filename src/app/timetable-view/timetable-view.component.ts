@@ -29,17 +29,20 @@ export class TimetableViewComponent implements OnInit {
    SelectableName: string = '';
    Selectable: ISelectable | null = null;
    TypeName: string = ''
-   DataSource = new MatTableDataSource<LessonsRow>(this.ConvertToLessonRows(this.Selectable?.Timetable))
+   DataSource = new MatTableDataSource<LessonsRow>([])
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {this.SelectableName = params['name']})
     this.route.url.subscribe(u => {this.TypeName = u.reverse()[1].path}) //TODO - no idea how urlsegment works
-    this.httpService.getTimetable(this.TypeName, this.SelectableName).subscribe(selecatable => this.Selectable = selecatable)
+
+    this.httpService.getTimetable(this.TypeName, this.SelectableName).subscribe(selecatable =>
+      { this.Selectable = selecatable;
+        this.DataSource = new MatTableDataSource<LessonsRow>(this.ConvertToLessonRows(this.Selectable.Timetable))
+      })
   }
 
   ConvertToLessonRows(timetable: Timetable): LessonsRow[] {
     throw new Error("Not implemented!");
-
   }
 
 }
