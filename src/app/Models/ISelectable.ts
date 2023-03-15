@@ -1,6 +1,6 @@
 import { Timetable } from './Timetable';
 export interface ISelectable {
-  Name: string
-  Timetable: Timetable
-  TypeName: string
+  name: string
+  timetable: Timetable
+  typeName: string
 }

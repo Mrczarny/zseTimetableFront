@@ -15,7 +15,7 @@ export class HttpClientService {
   }
 
   getAllNames(type: ISelectable) {
-    return this.http.get<string[]>(`${httpConfig.baseAddress}/${httpConfig.timetablesUrl}/${type.TypeName}/allnames`)
+    return this.http.get<string[]>(`${httpConfig.baseAddress}/${httpConfig.timetablesUrl}/${type.typeName}/allnames`)
   }
 
   getTimetable(type: string, name: string) {

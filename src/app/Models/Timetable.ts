@@ -1,6 +1,6 @@
 import { TimetableDay } from './TimetableDay';
 export type Timetable = {
-  Days: TimetableDay[]
-  StartDate: Date
-  EndDate: Date
+  days: TimetableDay[]
+  startDate: Date
+  endDate: Date
 }
