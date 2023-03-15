@@ -8,11 +8,12 @@ import { Lesson } from '../Models/Lesson';
 import { Timetable } from '../Models/Timetable';
 
 interface LessonsRow {
-  mondayLesson: Lesson
-  tuesdayLesson: Lesson,
-  wednesdayLesson: Lesson,
-  thursdayLesson: Lesson,
-  fridayLesson: Lesson
+  // mondayLesson: Lesson
+  // tuesdayLesson: Lesson,
+  // wednesdayLesson: Lesson,
+  // thursdayLesson: Lesson,
+  // fridayLesson: Lesson
+   [day: number]: Lesson
 }
 
 @Component({
@@ -26,6 +27,7 @@ export class TimetableViewComponent implements OnInit {
 
    }
 
+   displayedColumns: string[] = ["pon","wt"]
    SelectableName: string = '';
    Selectable: ISelectable | null = null;
    TypeName: string = ''
@@ -37,12 +39,23 @@ export class TimetableViewComponent implements OnInit {
 
     this.httpService.getTimetable(this.TypeName, this.SelectableName).subscribe(selecatable =>
       { this.Selectable = selecatable;
-        this.DataSource = new MatTableDataSource<LessonsRow>(this.ConvertToLessonRows(this.Selectable.Timetable))
+        this.DataSource = new MatTableDataSource<LessonsRow>(this.ConvertToLessonRows(selecatable.timetable))
       })
   }
 
   ConvertToLessonRows(timetable: Timetable): LessonsRow[] {
-    throw new Error("Not implemented!");
+    console.log(timetable);
+    var max = 0
+    timetable.days.forEach((day) => {
+      day.Lessons.length > max ? day.Lessons.length : max
+    })
+    var result =  new Array<LessonsRow>(max);
+    timetable.days.forEach((day) => {
+      day.Lessons.forEach((lesson) => {
+        result[day.Lessons.indexOf(lesson)][day.Day] = lesson
+      })
+    })
+    return result;
   }
 
 }
