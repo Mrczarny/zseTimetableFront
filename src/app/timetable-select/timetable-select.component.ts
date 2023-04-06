@@ -30,13 +30,13 @@ export class TimetableSelectComponent implements OnInit {
   }
 
   //TODO - this is ugly
-  getType(): ISelectable { switch (this.typeName.toLowerCase()) {
+  getType(): string { switch (this.typeName.toLowerCase()) {
     case 'teacher':
-      return {TypeName: 'teacher'} as Teacher;
+      return 'teacher'
     case 'classroom':
-      return {TypeName: 'classroom'} as Classroom;
+      return 'classroom'
     default:
-      return {TypeName: 'class'} as Class;
+      return 'class'
   }}
 
 

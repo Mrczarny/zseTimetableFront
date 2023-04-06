@@ -13,7 +13,7 @@ interface LessonsRow {
   // wednesdayLesson: Lesson,
   // thursdayLesson: Lesson,
   // fridayLesson: Lesson
-   [day: number]: Lesson
+   lessons: Array<Lesson>
 }
 
 @Component({
@@ -31,7 +31,8 @@ export class TimetableViewComponent implements OnInit {
    SelectableName: string = '';
    Selectable: ISelectable | null = null;
    TypeName: string = ''
-   DataSource = new MatTableDataSource<LessonsRow>([])
+   DataSource: MatTableDataSource<LessonsRow> = new MatTableDataSource<LessonsRow>(new Array<LessonsRow>);
+   Result: LessonsRow[] = [];
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {this.SelectableName = params['name']})
@@ -40,19 +41,25 @@ export class TimetableViewComponent implements OnInit {
     this.httpService.getTimetable(this.TypeName, this.SelectableName).subscribe(selecatable =>
       { this.Selectable = selecatable;
         this.DataSource = new MatTableDataSource<LessonsRow>(this.ConvertToLessonRows(selecatable.timetable))
+        this.Result =  this.ConvertToLessonRows(selecatable.timetable)
       })
+
   }
 
   ConvertToLessonRows(timetable: Timetable): LessonsRow[] {
     console.log(timetable);
     var max = 0
     timetable.days.forEach((day) => {
-      day.Lessons.length > max ? day.Lessons.length : max
+      console.log(day.lessons.length);
+      day.lessons.length > max ? max = day.lessons.length : max
     })
+    console.log(max);
     var result =  new Array<LessonsRow>(max);
+    result.fill({lessons: []},0,max)
     timetable.days.forEach((day) => {
-      day.Lessons.forEach((lesson) => {
-        result[day.Lessons.indexOf(lesson)][day.Day] = lesson
+      day.lessons.forEach((lesson) => {
+        console.log(result);
+        result[day.lessons.indexOf(lesson)].lessons[timetable.days.indexOf(day)] = lesson
       })
     })
     return result;

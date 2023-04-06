@@ -3,5 +3,5 @@ import { Lesson } from './Lesson';
 
 export type TimetableDay = {
   Day: WeekDay;
-  Lessons: Lesson[];
+  lessons: Lesson[];
 }
