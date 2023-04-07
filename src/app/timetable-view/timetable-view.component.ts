@@ -27,7 +27,7 @@ export class TimetableViewComponent implements OnInit {
 
    }
 
-   displayedColumns: string[] = ["pon","wt"]
+   displayedColumns: string[] = ["pon","wt", "sr", "czw", "pt"]
    SelectableName: string = '';
    Selectable: ISelectable | null = null;
    TypeName: string = ''
@@ -41,27 +41,29 @@ export class TimetableViewComponent implements OnInit {
     this.httpService.getTimetable(this.TypeName, this.SelectableName).subscribe(selecatable =>
       { this.Selectable = selecatable;
         this.DataSource = new MatTableDataSource<LessonsRow>(this.ConvertToLessonRows(selecatable.timetable))
+
         this.Result =  this.ConvertToLessonRows(selecatable.timetable)
       })
 
   }
 
   ConvertToLessonRows(timetable: Timetable): LessonsRow[] {
-    console.log(timetable);
+    //console.log(timetable);
     var max = 0
     timetable.days.forEach((day) => {
-      console.log(day.lessons.length);
+     // console.log(day.lessons.length);
       day.lessons.length > max ? max = day.lessons.length : max
     })
-    console.log(max);
+    //console.log(max);
     var result =  new Array<LessonsRow>(max);
     result.fill({lessons: []},0,max)
     timetable.days.forEach((day) => {
       day.lessons.forEach((lesson) => {
-        console.log(result);
+        //console.log(result);
         result[day.lessons.indexOf(lesson)].lessons[timetable.days.indexOf(day)] = lesson
       })
     })
+    //console.log(result);
     return result;
   }
 
