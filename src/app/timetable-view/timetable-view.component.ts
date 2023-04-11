@@ -27,9 +27,11 @@ export class TimetableViewComponent implements OnInit {
 
    }
 
-   displayedColumns: string[] = ["nr.", "pon","wt", "sr", "czw", "pt"]
+   //displayedColumns: string[] = ['position2','position3','position', 'name', 'weight', 'symbol'];
+   //dataSource = ELEMENT_DATA;
+   displayedColumns: string[] = ["nr", "pon","wt", "sr", "czw", "pt"]
    SelectableName: string = '';
-   SelectedGroups: string[] = ['2/3', '2/2', ""];
+   SelectedGroups: string[] = ['2/3', '2/2', "", 'j2'];
    Selectable: ISelectable | null = null;
    TypeName: string = ''
    DataSource: LessonsRow[] = []
@@ -62,7 +64,7 @@ export class TimetableViewComponent implements OnInit {
     }
 
     console.log(maxLessonNumber)
-    for(let i = 0; i < maxLessonNumber; i++) {
+    for(let i = 0; i <= maxLessonNumber; i++) {
       let lessons: Lesson[] = []
       for(let j = 0; j < 5; j++) {
         //console.log(timetable.days[j].lessons)
