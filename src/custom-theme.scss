@@ -25,7 +25,8 @@ $zseTimetableFront-theme: mat.define-light-theme((
     primary: $zseTimetableFront-primary,
     accent: $zseTimetableFront-accent,
     warn: $zseTimetableFront-warn,
-  )
+  ),
+  typography: mat.define-typography-config(),
 ));
 
 // Include theme styles for core and each component used in your app.

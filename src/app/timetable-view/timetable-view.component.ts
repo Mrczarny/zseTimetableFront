@@ -27,12 +27,14 @@ export class TimetableViewComponent implements OnInit {
 
    }
 
-   displayedColumns: string[] = ["pon","wt", "sr", "czw", "pt"]
+   displayedColumns: string[] = ["nr.", "pon","wt", "sr", "czw", "pt"]
    SelectableName: string = '';
+   SelectedGroups: string[] = ['2/3', '2/2', ""];
    Selectable: ISelectable | null = null;
    TypeName: string = ''
-   DataSource: MatTableDataSource<LessonsRow> = new MatTableDataSource<LessonsRow>(new Array<LessonsRow>);
+   DataSource: LessonsRow[] = []
    Result: LessonsRow[] = [];
+
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {this.SelectableName = params['name']})
@@ -40,7 +42,7 @@ export class TimetableViewComponent implements OnInit {
 
     this.httpService.getTimetable(this.TypeName, this.SelectableName).subscribe(selecatable =>
       { this.Selectable = selecatable;
-        this.DataSource = new MatTableDataSource<LessonsRow>(this.ConvertToLessonRows(selecatable.timetable))
+        this.DataSource = this.ConvertToLessonRows(selecatable.timetable)
 
         this.Result =  this.ConvertToLessonRows(selecatable.timetable)
       })
@@ -48,23 +50,30 @@ export class TimetableViewComponent implements OnInit {
   }
 
   ConvertToLessonRows(timetable: Timetable): LessonsRow[] {
-    //console.log(timetable);
-    var max = 0
-    timetable.days.forEach((day) => {
-     // console.log(day.lessons.length);
-      day.lessons.length > max ? max = day.lessons.length : max
-    })
-    //console.log(max);
-    var result =  new Array<LessonsRow>(max);
-    result.fill({lessons: []},0,max)
-    timetable.days.forEach((day) => {
-      day.lessons.forEach((lesson) => {
-        //console.log(result);
-        result[day.lessons.indexOf(lesson)].lessons[timetable.days.indexOf(day)] = lesson
-      })
-    })
-    //console.log(result);
-    return result;
+    let result: LessonsRow[] = []
+    //find the largest lessonNumber in the timetable
+    let maxLessonNumber = 0
+    for(let day of timetable.days) {
+      for(let lesson of day.lessons) {
+        if(lesson.lessonNumber > maxLessonNumber) {
+          maxLessonNumber = lesson.lessonNumber
+        }
+      }
+    }
+
+    console.log(maxLessonNumber)
+    for(let i = 0; i < maxLessonNumber; i++) {
+      let lessons: Lesson[] = []
+      for(let j = 0; j < 5; j++) {
+        //console.log(timetable.days[j].lessons)
+        //timetable.days[j].lessons.forEach(l => {console.log(l.Group); console.log(this.SelectedGroups.includes(l.Group))})
+        lessons.push(timetable.days[j].lessons.find(l => l.lessonNumber == i && this.SelectedGroups.includes(l.group))
+         ?? {name: '', lessonNumber: i, group: '', className: '', classroomName: '', teacherName: ''})
+      }
+      result.push({lessons: lessons})
+    }
+
+    return result
   }
 
 }

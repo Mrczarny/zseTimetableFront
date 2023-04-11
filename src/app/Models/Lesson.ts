@@ -1,8 +1,8 @@
 export type Lesson = {
-  Name: string;
-  Lesson: number;
-  Group: string;
-  ClassName: string;
-  ClassroomName: string;
-  TeacherName: string;
+  name: string;
+  lessonNumber: number;
+  group: string;
+  className: string;
+  classroomName: string;
+  teacherName: string;
 }

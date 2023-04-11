@@ -1,0 +1,10 @@
+table {
+  width: 100%;
+}
+table.mat-table {
+  display: table;
+}
+.mat-column-pon {
+  width: 20%;
+  height: 5%;
+}
