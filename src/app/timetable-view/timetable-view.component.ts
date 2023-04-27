@@ -31,10 +31,10 @@ export class TimetableViewComponent implements OnInit {
    //dataSource = ELEMENT_DATA;
    displayedColumns: string[] = ["nr", "pon","wt", "sr", "czw", "pt"]
    SelectableName: string = '';
-   SelectedGroups: string[] = ['2/3', '2/2', "", 'j2'];
+   Groups: {name: string, checked: boolean}[] = []
    Selectable: ISelectable | null = null;
    TypeName: string = ''
-   DataSource: LessonsRow[] = []
+   DataSource: MatTableDataSource<LessonsRow>  = new MatTableDataSource<LessonsRow>();
    Result: LessonsRow[] = [];
 
 
@@ -44,9 +44,10 @@ export class TimetableViewComponent implements OnInit {
 
     this.httpService.getTimetable(this.TypeName, this.SelectableName).subscribe(selecatable =>
       { this.Selectable = selecatable;
-        this.DataSource = this.ConvertToLessonRows(selecatable.timetable)
-
+        this.Groups = this.GetGroups(selecatable.timetable)
+        this.DataSource = new MatTableDataSource(this.ConvertToLessonRows(selecatable.timetable))
         this.Result =  this.ConvertToLessonRows(selecatable.timetable)
+
       })
 
   }
@@ -63,18 +64,35 @@ export class TimetableViewComponent implements OnInit {
       }
     }
 
-    console.log(maxLessonNumber)
+    //console.log(maxLessonNumber)
     for(let i = 0; i <= maxLessonNumber; i++) {
       let lessons: Lesson[] = []
       for(let j = 0; j < 5; j++) {
         //console.log(timetable.days[j].lessons)
         //timetable.days[j].lessons.forEach(l => {console.log(l.Group); console.log(this.SelectedGroups.includes(l.Group))})
-        lessons.push(timetable.days[j].lessons.find(l => l.lessonNumber == i && this.SelectedGroups.includes(l.group))
+        lessons.push(timetable.days[j].lessons.find(l => l.lessonNumber == i && this.Groups.some(x => x.name == l.group && x.checked))
          ?? {name: '', lessonNumber: i, group: '', className: '', classroomName: '', teacherName: ''})
       }
       result.push({lessons: lessons})
     }
 
+    return result
+  }
+
+  UpdateGroups() {
+    this.DataSource.connect().next(this.ConvertToLessonRows(this.Selectable!.timetable))
+  }
+
+  GetGroups(timetable: Timetable): {name: string, checked: boolean}[] {
+    let result: {name: string, checked: boolean}[] = []
+    for(let day of timetable.days) {
+      for(let lesson of day.lessons) {
+        if(!result.some(x => x.name == lesson.group)) {
+          result.push({name: lesson.group, checked: false})
+        }
+      }
+    }
+    result[0].checked = true
     return result
   }
 

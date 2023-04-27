@@ -1,3 +1,16 @@
+.main-container {
+  flex: 1 1 auto;;
+}
+.timetable-view {
+  height: 100%;
+  display: flex;
+}
+.table-div {
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 table {
   width: 100%;
 }

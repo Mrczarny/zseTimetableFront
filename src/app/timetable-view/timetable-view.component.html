@@ -1,48 +1,68 @@
-<main class="container">
-  <div>
-    <table mat-table [dataSource]="DataSource" class="mat-elevation-z8">
+<div class="timetable-view">
+  <button mat-icon-button class="menu-icon" aria-label="sidenav toggle button" (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-sidenav-container class="main-container">
+    <mat-sidenav #sidenav mode="side" >
+      <mat-nav-list class="sidebar-list">
+        <li *ngFor="let group of Groups">
+          <mat-checkbox (change)="UpdateGroups()" [(ngModel)]="group.checked" class="group-check">{{group.name}}</mat-checkbox>
+        </li>
+      </mat-nav-list>
+    </mat-sidenav>
+    <div #mainContent class="main-content">
 
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
+      <div class="table-div">
+        <table mat-table [dataSource]="DataSource" class="mat-elevation-z8">
 
-      <!-- Position Column -->
-      <ng-container matColumnDef="nr">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.lessons[1].lessonNumber}} </td>
-      </ng-container>
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="pon">
-        <th mat-header-cell *matHeaderCellDef> pon </th>
-        <td mat-cell *matCellDef="let element"> {{element.lessons[0].name}} </td>
-      </ng-container>
+          <ng-container matColumnDef="nr">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.lessons[1].lessonNumber}} </td>
+          </ng-container>
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="wt">
-        <th mat-header-cell *matHeaderCellDef> wt </th>
-        <td mat-cell *matCellDef="let element"> {{element.lessons[1].name}} </td>
-      </ng-container>
+          <ng-container matColumnDef="pon">
+            <th mat-header-cell *matHeaderCellDef> pon </th>
+            <td mat-cell *matCellDef="let element"> {{element.lessons[0].name}} <br>
+              {{element.lessons[0].teacherName}} <br>
+              {{element.lessons[0].classroomName}}</td>
+          </ng-container>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="sr">
-        <th mat-header-cell *matHeaderCellDef> sr </th>
-        <td mat-cell *matCellDef="let element"> {{element.lessons[2].name}} </td>
-      </ng-container>
+          <ng-container matColumnDef="wt">
+            <th mat-header-cell *matHeaderCellDef> wt </th>
+            <td mat-cell *matCellDef="let element"> {{element.lessons[1].name}} <br>
+              {{element.lessons[1].teacherName}} <br>
+              {{element.lessons[1].classroomName}} </td>
+          </ng-container>
 
-            <!-- Symbol Column -->
-      <ng-container matColumnDef="czw">
-        <th mat-header-cell *matHeaderCellDef> czw </th>
-        <td mat-cell *matCellDef="let element"> {{element.lessons[3].name}} </td>
-      </ng-container>
+          <ng-container matColumnDef="sr">
+            <th mat-header-cell *matHeaderCellDef> sr </th>
+            <td mat-cell *matCellDef="let element"> {{element.lessons[2].name}} <br>
+              {{element.lessons[2].teacherName}} <br>
+              {{element.lessons[2].classroomName}} </td>
+          </ng-container>
 
-            <!-- Symbol Column -->
-      <ng-container matColumnDef="pt">
-        <th mat-header-cell *matHeaderCellDef> pt </th>
-        <td mat-cell *matCellDef="let element"> {{element.lessons[4].name}} </td>
-      </ng-container>
+          <ng-container matColumnDef="czw">
+            <th mat-header-cell *matHeaderCellDef> czw </th>
+            <td mat-cell *matCellDef="let element"> {{element.lessons[3].name}} <br>
+              {{element.lessons[3].teacherName}} <br>
+              {{element.lessons[3].classroomName}} </td>
+          </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </div>
-</main>
+          <ng-container matColumnDef="pt">
+            <th mat-header-cell *matHeaderCellDef> pt </th>
+            <td mat-cell *matCellDef="let element"> {{element.lessons[4].name}}<br>
+              {{element.lessons[4].teacherName}} <br>
+              {{element.lessons[4].classroomName}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+  </mat-sidenav-container>
+
+</div>
