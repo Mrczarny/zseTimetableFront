@@ -1,11 +1,23 @@
 <main class="container">
-  <div class="row">Select your {{typeName}}</div>
+  <div class="row">Wybierz {{typeName == 'class' ? 'klasę' :
+    typeName == 'classroom' ? 'sale lekcyjną' : 'nauczyciela'}}</div>
   <div class="row">
-    <mat-select style="width: 23vh;" [(ngModel)]="selectedName" name="name">
-      <mat-option *ngFor="let name of Names" [routerLink]="'/'+typeName+'/'+name"  [value]="name">
-        {{name}}
-      </mat-option>
-    </mat-select>
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <input type="text"
+                placeholder="np. 1A"
+               [placeholder]="typeName == 'class' ? 'np. 1A' :
+               typeName == 'classroom' ? 'np. 202' : 'np. Jan Kowalski'"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete style="width: 23vh;" [(ngModel)]="selectedName" name="name" #auto="matAutocomplete">
+          <mat-option *ngFor="let name of filteredNames | async" [routerLink]="'/'+typeName+'/'+name"  [value]="name">
+            {{name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
   </div>
 </main>
 
