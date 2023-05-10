@@ -11,6 +11,7 @@
   transform: translate(-50%, -50%);
 }
 .row {
+  width: -moz-fit-content;
   width: fit-content;
   margin: 0 auto;
   margin-bottom: 10px;
