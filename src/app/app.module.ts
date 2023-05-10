@@ -16,7 +16,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormsModule } from '@angular/forms';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { CookieModule } from 'ngx-cookie';
 
 
 
@@ -38,8 +43,14 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatSidenavModule,
     MatCheckboxModule,
+    MatGridListModule,
+    MatAutocompleteModule,
     FormsModule,
-    MatTableModule
+    ReactiveFormsModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    CookieModule.withOptions()
   ],
   providers: [],
   bootstrap: [AppComponent]

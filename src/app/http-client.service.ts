@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import httpConfig from '../assets/httpConfig.json';
 import { ISelectable } from './Models/ISelectable';
+import { IChange } from './Models/IChange';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,13 @@ export class HttpClientService {
     return this.http.get<ISelectable>(`${httpConfig.baseAddress}/${httpConfig.timetablesUrl}/${type}/${name}`);
   }
 
-  // getAllCurrentChanges(){
-  //   return this.http.get<IChange[]>(`${httpConfig.changesUrl}/today`)
-  // }
+  getTodaysChanges(){
+    return this.http.get<IChange[]>(`${httpConfig.baseAddress}/${httpConfig.changesUrl}/today`)
+  }
+  getThisWeekChanges(){
+    return this.http.get<IChange[]>(`${httpConfig.baseAddress}/${httpConfig.changesUrl}/week`)
+  }
+
   // getChange(type: IChangable) {
   //   throw Error;
   //   return this.http.get<IChange>(`${httpConfig.changesUrl}/`)

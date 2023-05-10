@@ -1,63 +1,96 @@
 <div class="timetable-view">
-  <button mat-icon-button class="menu-icon" aria-label="sidenav toggle button" (click)="sidenav.toggle()">
-    <mat-icon>menu</mat-icon>
-  </button>
   <mat-sidenav-container class="main-container">
-    <mat-sidenav #sidenav mode="side" >
+    <mat-sidenav #sidenav mode="over" backdrop>
+      <button mat-icon-button class="menu-icon" aria-label="sidenav toggle button" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
       <mat-nav-list class="sidebar-list">
-        <li *ngFor="let group of Groups">
-          <mat-checkbox (change)="UpdateGroups()" [(ngModel)]="group.checked" class="group-check">{{group.name}}</mat-checkbox>
-        </li>
+        <ng-container *ngIf="TypeName == 'class' && Groups.length != 0; else elseTemplate">
+          <div class="groups-classes-container">
+            <mat-icon>group</mat-icon>
+            <span>Grupy</span>
+            <mat-divider></mat-divider>
+            <li *ngFor="let group of Groups">
+              <mat-checkbox color="primary" name="{{group.name}}" (change)="UpdateGroups($event)" [(ngModel)]="group.checked" class="group-check">{{group.name == '' ? 'Cała klasa' : group.name}}</mat-checkbox>
+            </li>
+          </div>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <div class="groups-classes-container" *ngIf="Classes.length != 0">
+            <mat-icon>school</mat-icon>
+            <span>Klasy</span>
+            <mat-divider></mat-divider>
+            <li *ngFor="let class of Classes">
+              <mat-checkbox color="primary" name="{{class.name}}" (change)="UpdateClasses($event)" [(ngModel)]="class.checked" class="group-check">{{class.name}}</mat-checkbox>
+            </li>
+          </div>
+        </ng-template>
+        <ng-container >
+          <div class="changes-container">
+            <mat-icon>sync_alt</mat-icon>
+            <span>Zastępstwa</span>
+            <mat-divider></mat-divider>
+            <mat-checkbox color="primary" name="showChanges" (change)="ToggleChanges()" [(ngModel)]="ShowChanges" class="group-check">Pokaż zastępstwa</mat-checkbox>
+          </div>
+        </ng-container>
+
       </mat-nav-list>
     </mat-sidenav>
     <div #mainContent class="main-content">
-
+      <button mat-icon-button class="menu-icon" aria-label="sidenav toggle button" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
       <div class="table-div">
         <table mat-table [dataSource]="DataSource" class="mat-elevation-z8">
 
-          <!--- Note that these columns can be defined in any order.
-                The actual rendered columns are set as a property on the row definition" -->
-
           <ng-container matColumnDef="nr">
-            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <th mat-header-cell *matHeaderCellDef> Nr. </th>
             <td mat-cell *matCellDef="let element"> {{element.lessons[1].lessonNumber}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="pon">
-            <th mat-header-cell *matHeaderCellDef> pon </th>
-            <td mat-cell *matCellDef="let element"> {{element.lessons[0].name}} <br>
-              {{element.lessons[0].teacherName}} <br>
-              {{element.lessons[0].classroomName}}</td>
-          </ng-container>
+          <div *ngFor="let col of daysColumns">
+            <ng-container matColumnDef="{{col}}">
+              <th mat-header-cell *matHeaderCellDef> {{col}} </th>
+              <td mat-cell *matCellDef="let element" [style.background-color]="element.lessons[daysColumns.indexOf(col)].isReplacement && ShowChanges ? '#FFC226' : ''">
+                <div *ngIf="element.lessons[daysColumns.indexOf(col)].isReplacement && ShowChanges; else elseTemplate">
+                  {{SetSelectedReplacement(element.lessons[daysColumns.indexOf(col)], daysColumns.indexOf(col))}}
+                  <div *ngIf="TypeName == 'class'">
+                    {{SelectedRp!.note}} <br>
+                    {{SelectedRp!.newTeacherName}} <br>
+                    {{SelectedRp!.newClassroomName}}
+                  </div>
+                  <div *ngIf="TypeName == 'classroom'">
+                    {{SelectedRp!.note}} <br>
+                    {{SelectedRp!.newTeacherName}} <br>
+                    {{SelectedRp!.className}}
+                  </div>
+                  <div *ngIf="TypeName == 'teacher'">
+                    {{SelectedRp!.note}} <br>
+                    {{SelectedRp!.className}} <br>
+                    {{SelectedRp!.newClassroomName}}
+                  </div>
 
-          <ng-container matColumnDef="wt">
-            <th mat-header-cell *matHeaderCellDef> wt </th>
-            <td mat-cell *matCellDef="let element"> {{element.lessons[1].name}} <br>
-              {{element.lessons[1].teacherName}} <br>
-              {{element.lessons[1].classroomName}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="sr">
-            <th mat-header-cell *matHeaderCellDef> sr </th>
-            <td mat-cell *matCellDef="let element"> {{element.lessons[2].name}} <br>
-              {{element.lessons[2].teacherName}} <br>
-              {{element.lessons[2].classroomName}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="czw">
-            <th mat-header-cell *matHeaderCellDef> czw </th>
-            <td mat-cell *matCellDef="let element"> {{element.lessons[3].name}} <br>
-              {{element.lessons[3].teacherName}} <br>
-              {{element.lessons[3].classroomName}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="pt">
-            <th mat-header-cell *matHeaderCellDef> pt </th>
-            <td mat-cell *matCellDef="let element"> {{element.lessons[4].name}}<br>
-              {{element.lessons[4].teacherName}} <br>
-              {{element.lessons[4].classroomName}} </td>
-          </ng-container>
-
+                </div>
+                <ng-template #elseTemplate>
+                  <div #class *ngIf="TypeName == 'class'">
+                    {{element.lessons[daysColumns.indexOf(col)].name}} <br>
+                    {{element.lessons[daysColumns.indexOf(col)].teacherName}} <br>
+                    {{element.lessons[daysColumns.indexOf(col)].classroomName}}
+                  </div>
+                  <div #classroom *ngIf="TypeName == 'classroom'">
+                    {{element.lessons[daysColumns.indexOf(col)].name}} <br>
+                    {{element.lessons[daysColumns.indexOf(col)].teacherName}} <br>
+                    {{element.lessons[daysColumns.indexOf(col)].className}}
+                  </div>
+                  <div #teacher *ngIf="TypeName == 'teacher'">
+                    {{element.lessons[daysColumns.indexOf(col)].name}} <br>
+                    {{element.lessons[daysColumns.indexOf(col)].className}} <br>
+                    {{element.lessons[daysColumns.indexOf(col)].classroomName}}
+                  </div>
+                </ng-template>
+              </td>
+            </ng-container>
+          </div>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>

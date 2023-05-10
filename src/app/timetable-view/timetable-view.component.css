@@ -1,12 +1,32 @@
 .main-container {
   flex: 1 1 auto;;
 }
+.sidebar-list {
+  padding: 10px;
+}
+.mat-icon {
+  vertical-align: middle;
+}
+.mat-divider {
+  margin-bottom: 10px;
+}
+.groups-classes-container {
+  padding-bottom: 15px;
+}
+
+.mat-header-cell {
+  padding-left: 2%;
+  padding-right: 2%;
+  min-width: fit-content;
+  min-width: -moz-fit-content;
+}
+
 .timetable-view {
   height: 100%;
   display: flex;
 }
 .table-div {
-  margin-top: 5%;
+  margin-bottom: 5%;
   margin-left: 10%;
   margin-right: 10%;
 }
@@ -20,4 +40,8 @@ table.mat-table {
 .mat-column-pon {
   width: 20%;
   height: 5%;
+}
+
+.mat-cell {
+  padding: 10px;
 }

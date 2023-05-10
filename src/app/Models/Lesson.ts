@@ -5,4 +5,5 @@ export type Lesson = {
   className: string;
   classroomName: string;
   teacherName: string;
+  isReplacement: boolean;
 }
