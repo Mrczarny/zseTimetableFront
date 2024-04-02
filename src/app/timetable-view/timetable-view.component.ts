@@ -65,7 +65,7 @@ export class TimetableViewComponent implements OnInit {
           this.Result =  this.ConvertToLessonRows(selecatable.timetable)
         });
       })
-    console.log(this.SelectedRp);
+
   }
 
 
