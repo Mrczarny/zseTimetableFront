@@ -1,5 +1,5 @@
 {
-  "baseAddress" : "https://localhost:5001",
+  "baseAddress" : "https://janadamski.ddns.net:2006/zsetimetable",
   "timetablesUrl": "api/timetable",
   "changesUrl": "api/changes"
 }

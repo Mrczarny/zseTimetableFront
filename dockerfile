@@ -9,7 +9,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
-RUN ng build -c production
+RUN ng build -c production --base-href=/zsetimetable/
 
 
 FROM builder as dev-envs
@@ -17,7 +17,8 @@ COPY . .
 
 FROM nginx:1.21.3-alpine
 RUN rm -rf /var/www/html/*
-COPY --from=builder /project/dist/zse-timetable-front /var/www/html
+COPY --from=builder /project/dist/zse-timetable-front /var/www/html/zsetimetable
+RUN mv /var/www/html/zsetimetable/index.html /var/www/html/index.html
 COPY default.conf /etc/nginx/conf.d/default.conf
 
 RUN nginx -t
